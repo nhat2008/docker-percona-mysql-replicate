@@ -1,0 +1,27 @@
+---
+- include: build-images.yml
+- name: create docker container
+  docker:
+        docker_api_version: "{{ docker_api_version }}"
+        docker_user: root
+        dns: ["{{consul.dns1}}"]
+        name: "{{docker_container.name}}"
+        image: "{{ db_master.image_name }}:latest"
+        detach: true
+        state: reloaded
+        env:
+          MYSQL_ROOT_PASSWORD={{ mysql.password }}
+          MYSQL_SLAVE_USER={{ mysql.slave_username }}
+          slave_password={{ mysql.slave_password }}
+        volumes:
+          - "{{ docker_folder.config }}:/etc/mysql/conf.d"
+          - "{{ docker_folder.data }}:/var/lib/mysql"
+          - "{{ docker_folder.dump }}:/tmp/dump"
+        ports:
+           - "{{ ansible_host_private_ip }}:{{expose.port1}}:3306"
+#- wait_for: port={{{ ansible_host_private_ip }}:{expose.port1}} delay=10
+- name: add replication user
+  script: master.sh {{ docker_container.name }} {{ mysql.username }} {{ mysql.password }} {{ mysql.slave_username }} {{ mysql.slave_password }} {{ mysql.database }} {{ docker_folder.dump }}
+#docker exec -ti slavedb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE STATUS;" -vvv
+#docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE HOSTS;" -vvv
+#docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW MASTER STATUS;" -vvv

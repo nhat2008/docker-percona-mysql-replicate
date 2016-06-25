@@ -1,0 +1,12 @@
+---
+docker_folder:
+            workplace: '/data/database-slave'
+            config: '/data/database-slave/config'
+            data: '/data/database-slave/data'
+            dump: '/tmp/dump'
+docker_container:
+            name: 'slavedb'
+            master_name: 'masterdb'
+            master_host: '{{db_master.image_name}}{{consul.service_suffix_domain}}'
+expose:
+      port1: 3306

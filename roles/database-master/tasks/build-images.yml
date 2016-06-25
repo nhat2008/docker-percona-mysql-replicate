@@ -1,0 +1,23 @@
+---
+#Create folder for files: Dockerfile ...
+- name: create workplace for Docker at {{ docker_folder.workplace }}
+  file: name={{ docker_folder.workplace }} state=directory
+- name: synchronize folder to {{ docker_folder.workplace }}
+  copy: src=files/ dest={{ docker_folder.workplace }}
+#Create folder for files: my.cnf
+- name: create workplace for Docker at {{ docker_folder.config }}
+  file: name={{ docker_folder.config }} state=directory
+- name: synchronize folder to {{ docker_folder.config }}
+  copy: src=files/my.cnf dest={{ docker_folder.config }} mode=644
+#Create folder for sql
+- name: create workplace for sql
+  file: name={{ docker_folder.dump }} state=directory
+- name: synchronize folder to {{ docker_folder.dump }}
+  copy: src=files/product.sql dest={{ docker_folder.dump }} mode=644
+# Build image from Dockerfile
+- name: check or build image
+  docker_image:
+    docker_api_version="{{ docker_api_version }}"
+    path={{ docker_folder.workplace }}
+    name={{ db_master.image_name }}
+    state=present

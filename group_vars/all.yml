@@ -1,0 +1,17 @@
+---
+docker_api_version: "1.19"
+db_master:
+            image_name: 'masterdb'
+db_slave:
+            image_name: 'slavedb'
+mysql:
+      username: ""
+      password: ''
+      data_folder: '/var/percona/data'
+      slave_username: ''
+      slave_password: ''
+      database: ''
+
+docker_workplace: '/data/'
+
+ansible_connection: ssh

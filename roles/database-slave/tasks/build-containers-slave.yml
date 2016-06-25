@@ -1,0 +1,29 @@
+---
+- include: build-images.yml
+- name: remove docker container
+  docker:
+        docker_api_version: "{{ docker_api_version }}"
+        dns: ["{{consul.dns1}}"]
+        name: "{{docker_container.name}}"
+        image: "{{ db_slave.image_name }}:latest"
+        detach: true
+        state: reloaded
+        env:
+          MYSQL_ROOT_PASSWORD={{ mysql.password }}
+        volumes:
+          - "{{ docker_folder.config }}:/etc/mysql/conf.d"
+          - "{{ docker_folder.data }}:/var/lib/mysql"
+          - "{{ docker_folder.dump }}:/tmp/dump"
+        ports:
+          - "{{ ansible_host_private_ip }}:{{expose.port1}}:3306"
+#        links:
+#            - "{{ docker_container.master_name }}:mysql"
+#- wait_for: port={{ ansible_host_private_ip }}:{{expose.port1}} delay=10
+- name: start slave
+  script: >
+          slave.sh  {{docker_container.name}}
+                    "{{ mysql.username }}"
+                    "{{ mysql.password }}"
+                    "{{ db_master.image_name }}{{ consul.service_suffix_domain }}"
+                    "{{ mysql.slave_username }}"
+                    "{{ mysql.slave_password }}"

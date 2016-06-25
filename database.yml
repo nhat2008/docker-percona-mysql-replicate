@@ -1,0 +1,9 @@
+---
+- hosts: database-master
+  roles:
+    - database-master
+
+
+- hosts: database-slave
+  roles:
+    - database-slave

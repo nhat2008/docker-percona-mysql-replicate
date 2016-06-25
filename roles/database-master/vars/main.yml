@@ -1,0 +1,10 @@
+---
+docker_folder:
+            workplace: '/data/database-master'
+            config: '/data/database-master/config'
+            data: '/data/database-master/data'
+            dump: '/tmp/dump'
+docker_container:
+            name: 'masterdb'
+expose:
+      port1: 3306

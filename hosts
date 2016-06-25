@@ -1,0 +1,7 @@
+# DATABASE - master
+[database-master]
+localhost
+
+# DATABASE - slave
+[database-slave]
+localhost
