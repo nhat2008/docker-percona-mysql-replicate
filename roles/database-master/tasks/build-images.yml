@@ -12,8 +12,8 @@
 #Create folder for sql
 - name: create workplace for sql
   file: name={{ docker_folder.dump }} state=directory
-- name: synchronize folder to {{ docker_folder.dump }}
-  copy: src=files/product.sql dest={{ docker_folder.dump }} mode=644
+#- name: synchronize folder to {{ docker_folder.dump }}
+#  copy: src=files/product.sql dest={{ docker_folder.dump }} mode=644
 # Build image from Dockerfile
 - name: check or build image
   docker_image:

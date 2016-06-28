@@ -3,7 +3,6 @@
 - name: remove docker container
   docker:
         docker_api_version: "{{ docker_api_version }}"
-        dns: ["{{consul.dns1}}"]
         name: "{{docker_container.name}}"
         image: "{{ db_slave.image_name }}:latest"
         detach: true
@@ -24,6 +23,6 @@
           slave.sh  {{docker_container.name}}
                     "{{ mysql.username }}"
                     "{{ mysql.password }}"
-                    "{{ db_master.image_name }}{{ consul.service_suffix_domain }}"
+                    "{{ docker_container.master_host }}"
                     "{{ mysql.slave_username }}"
                     "{{ mysql.slave_password }}"

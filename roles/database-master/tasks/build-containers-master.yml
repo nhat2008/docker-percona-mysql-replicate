@@ -4,7 +4,6 @@
   docker:
         docker_api_version: "{{ docker_api_version }}"
         docker_user: root
-        dns: ["{{consul.dns1}}"]
         name: "{{docker_container.name}}"
         image: "{{ db_master.image_name }}:latest"
         detach: true
@@ -18,10 +17,7 @@
           - "{{ docker_folder.data }}:/var/lib/mysql"
           - "{{ docker_folder.dump }}:/tmp/dump"
         ports:
-           - "{{ ansible_host_private_ip }}:{{expose.port1}}:3306"
-#- wait_for: port={{{ ansible_host_private_ip }}:{expose.port1}} delay=10
+           - "0.0.0.0:3306:3306"
+- wait_for: port=0.0.0.0:3306 delay=10
 - name: add replication user
   script: master.sh {{ docker_container.name }} {{ mysql.username }} {{ mysql.password }} {{ mysql.slave_username }} {{ mysql.slave_password }} {{ mysql.database }} {{ docker_folder.dump }}
-#docker exec -ti slavedb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE STATUS;" -vvv
-#docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE HOSTS;" -vvv
-#docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW MASTER STATUS;" -vvv

@@ -1,9 +1,11 @@
 ---
 - hosts: database-master
+  sudo: yes
   roles:
     - database-master
 
 
 - hosts: database-slave
+  sudo: yes
   roles:
     - database-slave

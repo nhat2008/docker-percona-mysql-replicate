@@ -7,6 +7,6 @@ docker_folder:
 docker_container:
             name: 'slavedb'
             master_name: 'masterdb'
-            master_host: '{{db_master.image_name}}{{consul.service_suffix_domain}}'
+            master_host: 'localhost'
 expose:
       port1: 3306
