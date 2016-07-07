@@ -9,8 +9,8 @@ We will set up the replication with type GTID: master-slave  , master-multi slav
 </br>5. Run ansible for deploying: ansible-playbook -i hosts database.yml
 
 #Some commands to check the replication:
-</br>&nbsp;&nbsp;&nbsp;- docker exec -ti slavedb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE STATUS;" -vvv
-</br>&nbsp;&nbsp;&nbsp;- docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE HOSTS;" -vvv
-</br>&nbsp;&nbsp;&nbsp;- docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW MASTER STATUS;" -vvvv
+</br>&nbsp;&nbsp;&nbsp;$ docker exec -ti slavedb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE STATUS;" -vvv
+</br>&nbsp;&nbsp;&nbsp;$ docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW SLAVE HOSTS;" -vvv
+</br>&nbsp;&nbsp;&nbsp;$ docker exec -ti masterdb 'mysql' -uroot -pmysecretpass -e"SHOW MASTER STATUS;" -vvvv
 </br>
 *For more information about replication with docker: https://www.percona.com/blog/2016/03/30/docker-mysql-replication-101/
